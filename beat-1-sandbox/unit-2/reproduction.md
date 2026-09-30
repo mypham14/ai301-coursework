@@ -95,9 +95,11 @@ fields.
 
 **Run history**
 
+```text
 agreement: 19/20 scored items  (bar: 18/20: PASS)
 agreement: 19/20 scored items  (bar: 18/20: PASS)
 agreement: 20/20 scored items  (bar: 18/20: PASS)
+```
 
 **Package analysis**
 
