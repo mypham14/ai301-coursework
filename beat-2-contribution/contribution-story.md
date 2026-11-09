@@ -7,7 +7,7 @@ the repository is not read. **Keep every section header below under its exact na
 format criteria grade exactly that. Your course repo link is the whole submission: no tool
 files and no evidence uploads are part of Assignment 5.
 
-**Contribution Number:** [1]
+**Contribution Number:** 1
 **Student:** My Pham
 **GitHub Username:** mypham14
 **Issue:** [GitHub issue link]
