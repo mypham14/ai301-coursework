@@ -1,4 +1,4 @@
-# Contribution: [Issue Title]
+# Contribution: [Feature] Cart CSV export: field selector for custom column selection
 
 Path: `beat-2-contribution/contribution-story.md`
 
@@ -7,10 +7,10 @@ the repository is not read. **Keep every section header below under its exact na
 format criteria grade exactly that. Your course repo link is the whole submission: no tool
 files and no evidence uploads are part of Assignment 5.
 
-**Contribution Number:** 1
-**Student:** My Pham
-**GitHub Username:** mypham14
-**Issue:** [GitHub issue link]
+**Contribution Number:** 1  
+**Student:** My Pham  
+**GitHub Username:** mypham14  
+**Issue:** https://github.com/ChurchCRM/CRM/issues/8900  
 **Pull Request:** [GitHub PR link, once opened]
 
 One repository, built across units 5 to 8, telling the whole story of your real
@@ -81,24 +81,23 @@ drafted, what you did with the draft.]
 
 ## Why I Chose This Issue
 
-[1-2 paragraphs in your own words: how you searched, what your scan
-surfaced, what your scout's verdict said, why this issue fits your
-profile, and what you hope to learn. If your scout's verdict on it
-was reject and you chose it anyway, say so here and say why; choosing
-against your own tool silently is what loses points. Close with an
-honest read of the tool itself: where the scout fell short on a real
-wild search and what you changed or would change, or what convinced
-you it held up. **Record the link to your claim comment in this section too.**
-Not claimed yet? Write `claim pending` and today's date where the link goes,
-and add the link the moment your claim lands.]
+I used issue-scout to grade three issues I had picked: ChurchCRM #8900, ChurchCRM #819, and WebDevTools #159. After I patched the scope check, the scout accepted all three and rated #8900 straightforward, #819 moderate, and #159 ambitious. I chose #8900 because it is a bounded CSV-export feature that connects to my data-science and analytics experience, and the maintainer pointed to an existing field-selection pattern in `src/CSVExport.php`. I hope to learn how ChurchCRM's PHP export flow is organized and how that pattern can be applied to the Cart export.
+
+The scout helped me compare the options, but I treated its verdict as evidence rather than a decision: its maintainer-activity check accepts ChurchCRM based on a non-owner merge even though most merges are concentrated with DawoudIO. It also surfaced the uncertainty around #819 and the old assignment on #159, which I would want to verify before choosing either. I selected #8900 because its scope and implementation precedent were clearer. I posted my claim here: https://github.com/ChurchCRM/CRM/issues/8900#issuecomment-6760912314.
 
 **Toolkit**
 
 - Tool: issue-scout (your scout: your search strategy, your rubric),
-  and how you used it
-- What it produced: [the scan and its verdict on this issue, described]
-- Difficulties: [where it fell short, or "none met" if none did]
-- What changed: [what you patched or would update, or "nothing"]
+  used in direct mode to grade my three candidate issues
+- What it produced: accepted verdicts for #8900, #819, and #159, with
+  straightforward, moderate, and ambitious difficulty notes respectively;
+  I chose #8900
+- Difficulties: the original scope check treated open edges too strictly,
+  and the maintainer-activity result needs human judgment when merges are
+  concentrated among a small number of contributors
+- What changed: I replaced `scope_is_small_enough` with `scope-feasible`,
+  added the difficulty-note guidance, and recorded the patch and regrade
+  cautions in the scout's notes
 
 ---
 
