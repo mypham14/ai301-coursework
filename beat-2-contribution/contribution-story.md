@@ -130,31 +130,54 @@ The scout helped me compare the options, but I treated its verdict as evidence r
 
 **Environment Setup**
 
-[What a stranger would need to stand this up: your operating system,
-the relevant versions (language, runtime, package manager, the project
-itself), and how you set the project up. Then the challenges you faced
-and how you solved them, or that none came up.]
+I inspected `mypham14/CRM` on Windows 10 Pro, version 10.0.19045, build 19045, at commit `493cb45053bd94719dbb9c152afff344b2785bfc` on `master` (2026-11-10). The source inspection did not require running the app. Before attempting runtime setup, `npm run env:check -- php` reported 2/11 checks passed (Node and Git); PHP 8.4+, Composer, dependencies, PHP extensions, and the PHP test runner were missing. Docker could not connect because the Docker Desktop Linux engine was not running, so I did not install dependencies, start services, or run the application.
 
 **Steps to Reproduce**
 
-1. [Step 1]
-2. [Step 2]
-3. [Observed result]
+These steps inspect the source for the route reached by `GET /people/cart`; they do not launch the application.
+
+1. Clone the fork and check out the inspected commit:
+
+   ```powershell
+   git clone https://github.com/mypham14/CRM.git CRM
+   Set-Location CRM
+   git checkout 493cb45053bd94719dbb9c152afff344b2785bfc
+   ```
+
+2. Confirm the checkout with `git rev-parse HEAD`; expected output is `493cb45053bd94719dbb9c152afff344b2785bfc`.
+3. Inspect the Cart table's export configuration and initialization:
+
+   ```powershell
+   rg -n -i "csv|export|Directory|Actions|No export|DataTable" src/people/views/cart/cartview.php webpack/crm-bootstrap.js
+   ```
+
+4. Compare the configured export columns with the Cart table headers in `src/people/views/cart/cartview.php`. This source inspection does not verify a downloaded CSV in a running browser.
 
 **Reproduction Evidence**
 
-- **Commit showing reproduction:** [link to commit in your fork]
-- **Screenshots/logs:** [if applicable]
-- **My findings:** [what you discovered during reproduction; an
-  honest, evidenced cannot-reproduce that led you to re-pick or ask
-  the maintainer belongs here and costs you nothing]
+- **Commit showing reproduction:** none (source inspection only; no code changes).
+- **Screenshots/logs:** No runtime screenshot, downloaded CSV, or application log. The PHP readiness check reported `php: 2/11 checks passed. No application tests were run.`
+- **Source output:**
+
+  ```text
+  src/people/views/cart/cartview.php:39:    <a href="<?= SystemURLs::getRootPath() ?>/DirectoryReports.php?cartdir=Cart+Directory" class="btn btn-outline-warning" title="<?= gettext('Generate phone directory') ?>">
+  src/people/views/cart/cartview.php:40:      <i class="fa-solid fa-book me-2"></i><?= gettext('Directory') ?>
+  src/people/views/cart/cartview.php:60:            <th class="no-export"><?= gettext('Actions') ?></th>
+  src/people/views/cart/cartview.php:129:    $("#cart-listing-table").DataTable(window.CRM.plugin.dataTable);
+  webpack/crm-bootstrap.js:23:function dataTableConfig(pageLength, languageUrl) {
+  webpack/crm-bootstrap.js:36:    buttons: [
+  webpack/crm-bootstrap.js:38:        extend: "csv",
+  webpack/crm-bootstrap.js:42:        exportOptions: { columns: ":not(.no-export)" },
+  ```
+
+- **My findings:** At this pinned commit, the Cart table uses the shared DataTable configuration, which adds a CSV button and exports columns except those marked `.no-export`. The Cart columns are Name, Address, Email, Classification, Family Role, and Actions; Actions is excluded, so the source supports the issue's report of a fixed-column Cart CSV export. The separate admin CSV flow in `src/CSVExport.php` also offers selectable fields and a “People in Cart” source, handled by `src/CSVCreateFile.php`. I did not launch the application or download a CSV, so I have not verified the runtime output. Before coding, I need to ask whether #8900 intends selectable additional fields such as Birthday and Phone in the Cart table's CSV button, or a different export flow.
 
 **Toolkit**
 
-- Tool:
-- What it produced:
-- Difficulties:
-- What changed:
+- Tool: repro-check graded my claim and source-inspection report; I inspected the pinned Cart view and shared DataTable configuration.
+- What it produced: an `accept` verdict on all required checks and evidence that the Cart table's CSV button exports its fixed visible columns, excluding Actions.
+- Difficulties: the local PHP and Docker prerequisites were unavailable, so I could not verify a downloaded CSV at runtime. My first source read missed the shared CSV button and led to an incorrect conclusion.
+- What changed: I corrected the report after tracing `window.CRM.plugin.dataTable` to `webpack/crm-bootstrap.js`; I will clarify the intended selectable-field behavior with the maintainer before coding.
 
 ---
 
