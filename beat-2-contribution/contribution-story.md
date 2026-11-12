@@ -73,7 +73,7 @@ I built a profile-based search strategy for my issue-scout and ran it across Pyt
 <!-- [2-4 sentences: the voice-guard, the repo-memory file. What broke or
 fell short, and what changed because of it. "Nothing broke" counts when
 it is true - say how you know.] -->
-During Unit 6, I added upstream claim, question, and ping rules to my voice guide, installed the voice guard, and verified the hook; the wiring test was blocked as expected because the comment command had no body. I created a concise `CLAUDE.local.md` for my CRM clone and excluded it through `.git/info/exclude` so it stays out of the PR. My first claim check failed because repro-check still had its sandbox scope, so I installed the wild scope and reran it successfully. I initially missed the Cart's shared DataTables CSV button, then corrected my source report: the Cart exports its fixed table columns, while `src/CSVExport.php` has a separate selectable-field flow. The maintainer confirmed that the selector should be brought to the Cart export surface.
+During Unit 6, I added upstream claim, question, and ping rules to my voice guide, installed the voice guard, and verified the hook; the wiring test was blocked as expected because the comment command had no body. I created a concise `CLAUDE.local.md` for my CRM clone and excluded it through `.git/info/exclude` so it stays out of the PR. My first claim check failed because repro-check still had its sandbox scope, so I installed the wild scope and reran it successfully. I initially missed the Cart's shared DataTables CSV button, then corrected my source report: the Cart exports its fixed table columns, while `src/CSVExport.php` has a separate selectable-field flow. The issue's automated community assistant (`churchcrm-hazel`) confirmed that the selector should be brought to the Cart export surface; a human maintainer has not commented.
 
 <!-- [one line on the tool work] -->
 **Unit 7: Installing the ship-gate and writing my manifest for the Cart CSV branch**
@@ -103,7 +103,7 @@ wild search and what you changed or would change, or what convinced
 you it held up. **Record the link to your claim comment in this section too.**
 Not claimed yet? Write `claim pending` and today's date where the link goes,
 and add the link the moment your claim lands.] -->
-I used issue-scout to grade three issues I had picked: ChurchCRM #8900, ChurchCRM #819, and WebDevTools #159. After I patched the scope check, the scout accepted all three and rated #8900 straightforward, #819 moderate, and #159 ambitious. I chose #8900 because it is a bounded CSV-export feature that connects to my data-science and analytics experience, and the maintainer pointed to an existing field-selection pattern in `src/CSVExport.php`. I hope to learn how ChurchCRM's PHP export flow is organized and how that pattern can be applied to the Cart export.
+I used issue-scout to grade three issues I had picked: ChurchCRM #8900, ChurchCRM #819, and WebDevTools #159. After I patched the scope check, the scout accepted all three and rated #8900 straightforward, #819 moderate, and #159 ambitious. I chose #8900 because it is a bounded CSV-export feature that connects to my data-science and analytics experience, and the issue's automated community assistant (`churchcrm-hazel`) pointed to an existing field-selection pattern in `src/CSVExport.php`. I hope to learn how ChurchCRM's PHP export flow is organized and how that pattern can be applied to the Cart export.
 
 The scout helped me compare the options, but I treated its verdict as evidence rather than a decision: its maintainer-activity check accepts ChurchCRM based on a non-owner merge even though most merges are concentrated with DawoudIO. It also surfaced the uncertainty around #819 and the old assignment on #159, which I would want to verify before choosing either. I selected #8900 because its scope and implementation precedent were clearer. I posted my claim here: https://github.com/ChurchCRM/CRM/issues/8900#issuecomment-6760912314.
 
@@ -229,7 +229,7 @@ These steps reproduce the baseline Cart CSV output in the local development app.
   webpack/crm-bootstrap.js:42:        exportOptions: { columns: ":not(.no-export)" },
   ```
 
-- **My findings:** At this pinned commit, the Cart table uses the shared DataTable configuration, which adds a CSV button and exports columns except those marked `.no-export`. The Cart columns are Name, Address, Email, Classification, Family Role, and Actions; Actions is excluded. The downloaded header confirms that the current export contains only the five fixed data columns. The separate admin CSV flow in `src/CSVExport.php` also offers selectable fields and a “People in Cart” source, handled by `src/CSVCreateFile.php`. The maintainer's direction is to bring field selection to the Cart export surface.
+- **My findings:** At this pinned commit, the Cart table uses the shared DataTable configuration, which adds a CSV button and exports columns except those marked `.no-export`. The Cart columns are Name, Address, Email, Classification, Family Role, and Actions; Actions is excluded. The downloaded header confirms that the current export contains only the five fixed data columns. The separate admin CSV flow in `src/CSVExport.php` also offers selectable fields and a “People in Cart” source, handled by `src/CSVCreateFile.php`. The direction from the issue's automated community assistant (`churchcrm-hazel`) is to bring field selection to the Cart export surface.
 
 **Toolkit**
 
@@ -400,7 +400,7 @@ One real entry beats ten plausible ones.] -->
 
 <!-- - [Link to documentation that helped]
 - [Discussion, issue, or post that helped] -->
-- ChurchCRM issue #8900, the request and the maintainer's comment that set the scope: https://github.com/ChurchCRM/CRM/issues/8900
+- ChurchCRM issue #8900, the request and the automated community assistant's comment (`churchcrm-hazel`) that set the scope: https://github.com/ChurchCRM/CRM/issues/8900
 - `DEVELOPING.md` in the CRM repo, for the Docker dev stack, the build, and running a single Cypress spec.
 - `.agents/skills/churchcrm/code-standards.md` in the CRM repo, for the rule that page logic goes in a webpack entry.
 - `src/CSVExport.php` in the CRM repo, the admin-only field selector I used as the pattern for the Cart's selector.
