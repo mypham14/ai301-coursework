@@ -12,6 +12,7 @@ files and no evidence uploads are part of Assignment 5.
 **GitHub Username:** mypham14  
 **Issue:** https://github.com/ChurchCRM/CRM/issues/8900  
 **Pull Request:** https://github.com/ChurchCRM/CRM/pull/11430
+<!-- [GitHub PR link, once opened] -->
 
 One repository, built across units 5 to 8, telling the whole story of your real
 contribution. Fill it as you work, not at the end — the sections below ask for evidence that
@@ -65,12 +66,18 @@ I built a profile-based search strategy for my issue-scout and ran it across Pyt
 
 During Unit 6, I added upstream claim, question, and ping rules to my voice guide, installed the voice guard, and verified the hook; the wiring test was blocked as expected because the comment command had no body. I created a concise `CLAUDE.local.md` for my CRM clone and excluded it through `.git/info/exclude` so it stays out of the PR. My first claim check failed because repro-check still had its sandbox scope, so I installed the wild scope and reran it successfully. I initially missed the Cart's shared DataTables CSV button, then corrected my source report: the Cart exports its fixed table columns, while `src/CSVExport.php` has a separate selectable-field flow. The maintainer confirmed that the selector should be brought to the Cart export surface.
 
+<!-- [one line on the tool work] -->
 **Unit 7: Installing the ship-gate and writing my manifest for the Cart CSV branch**
 
+<!-- [2-4 sentences: the ship-gate and your gate manifest. What it produced
+on your real branch, what fought you, what changed because of it.] -->
 I wrote a manifest with three must-pass checks (lint, build, and my Cart CSV Cypress spec) and listed the existing `standard.cart.spec.js` as excluded, dated 2026-11-10, because all three of its tests fail on unchanged `master`. On my branch the gate's first pr-precheck rejected my description for the leftover working-draft comment and for a Screenshots section that only listed filenames, so I reworded that section and the gate then passed. Twice my own spec failed in its `before each` hook because a root-owned daily log file made the dev server return 500 on every page; I fixed the owner and kept the log files writable while the gate ran. The pre-push lint could not run on my Windows machine because of spaces in the repo and Node paths, so I pushed with `--no-verify` after the lint had passed in Docker, and said so in the PR.
 
+<!-- [one line on the tool work] -->
 **Unit 8: Adding a PR monitor and playbook for the Cart CSV PR**
 
+<!-- [2-4 sentences: the PR-monitor and your playbook. What it read, what it
+drafted, what you did with the draft.] -->
 I wrote my playbook from five recent merged outside PRs in ChurchCRM/CRM, where a maintainer replied within about a day and the PR merged in 0.1 to 4.2 days, so I set a 7-day nudge threshold and a 30-day walk-away. The monitor read PR #11430 (CodeRabbit's approval, one passing check, no human comments) and drafted "Don't send anything yet. Wait", which I followed; I wrote no reply. Its draft also said CodeRabbit's description check had flagged my "Working draft only" comment, but I checked CodeRabbit's comment and that check passed, so I did not edit the PR body. `--state` also crashed on Windows until I ran Python in UTF-8 mode, and my playbook rule that a bot review does not count as a maintainer reply is what kept the monitor from treating the approval as maintainer engagement.
 
 ---
@@ -218,8 +225,8 @@ The focused test passed on this branch on 2026-11-11. From the CRM repo root, us
 
    Expected result: the new Cart CSV spec passes. On the baseline, the selected-field header assertion should fail because only the five fixed headers are exported. Run the manifest's lint and build commands and record their results in `test_evidence.md`; report the existing Cart add/remove spec's known baseline failures separately.
 
-[Record deviations here as they happen: what changed mid-build and
-why. A recorded deviation is honest work; silent drift is not.]
+<!-- [Record deviations here as they happen: what changed mid-build and
+why. A recorded deviation is honest work; silent drift is not.] -->
 
 **Toolkit**
 
@@ -274,15 +281,24 @@ Opened PR #11430. CodeRabbit requested one change: move the Cart page's inline s
 
 ## Pull Request
 
+<!-- [GitHub PR URL when opened] -->
 **PR Link:** https://github.com/ChurchCRM/CRM/pull/11430
 
+<!-- [what the PR says; much of the content above
+adapts into it] -->
 **PR Description:** Fixes #8900. Export CSV on the Cart page now opens a modal where users choose the fields. The five original fields (Name, Address, Email, Classification, Family Role) are checked by default; First Name, Birth Date and Mobile Phone are optional. The modal's Download CSV button calls a new `GET /people/cart/csv` route in `src/people/routes/cart.php`, which checks the chosen fields against an allowlist, returns a 400 for an empty or unknown field, and exports only the people in the Cart without the Actions column. The shared DataTables export, the admin-only exporter and the database schema are unchanged. Validation: the new `cart.csv-export.spec.js` passes, `npm run lint` passed all 29 checks and `npm run build` passed in Docker, and the existing `standard.cart.spec.js` fails the same 3 tests as on `master`. I checked the modal in light and dark at 1440, 820 and 390 px on seeded demo data. I pushed with `--no-verify` because the pre-push lint cannot run on my Windows host, and the description says so.
 
 **Maintainer Feedback:**
 
+<!-- - [Date]: [feedback received, or "none yet"; silence is a normal
+  state and costs you nothing]
+- [Date]: [how you addressed it] -->
 - 2026-11-12: CodeRabbit (a bot, not a maintainer) requested one change: move the Cart page's inline script into a webpack entry.
 - 2026-11-12: I moved it into `webpack/cart-csv-export.js` (commit `91b418e4c`) and resolved the thread. CodeRabbit re-reviewed and approved at 18:32 UTC. No human maintainer has commented yet.
 
+<!-- [Awaiting review / Iterating / Merged / Closed. The
+status is a fact you record, never a grade: the PR is graded as
+opened.] -->
 **Status:** Awaiting review
 
 **Toolkit**
@@ -298,25 +314,31 @@ Opened PR #11430. CodeRabbit requested one change: move the Cart page's inline s
 
 **Technical Skills Gained**
 
+<!-- [What you learned technically, named concretely.] -->
 I learned how ChurchCRM's shared table export works: `window.CRM.plugin.dataTable` in `webpack/crm-bootstrap.js` builds the CSV button from the columns a table renders, which is why the Cart could not offer Birth Date or Mobile Phone. I wrote my first Slim route with an allowlist check that returns a 400 for an empty or unknown field, a Bootstrap field-selection modal, and a Cypress spec that parses the downloaded CSV. I also learned the repo's rule that page logic belongs in a registered webpack entry and not in an inline `<script>`, and how to run the Docker dev stack and Cypress against a seeded database.
 
 **Challenges Overcome**
 
+<!-- [What was hard and how you solved it; point at the real events, the
+Toolkit blocks above are full of them.] -->
 The hardest part was the environment, not the feature. The dev container ran with Xdebug on, so pages took 5 to 10 seconds and my Cypress spec timed out at 30 seconds until I reran it with longer timeouts. Twice a root-owned daily log file made the server return 500 on every page and failed the ship-gate's spec before it reached any assertion; I found it in the PHP log, fixed the file's owner, and kept the log files writable while the gate ran. On my Windows machine the repo's pre-push lint and pre-commit PHP check could not run because of spaces in my paths and no PHP, so I verified the same checks in Docker (lint 29 of 29, `php -l`) and pushed with `--no-verify`, and said so in the PR. My own pr-precheck also stopped me once, on the leftover draft comment and a Screenshots section with no images.
 
 **What I'd Do Differently Next Time**
 
+<!-- [Reflection on your process.] -->
 I would read the repo's `code-standards.md` before writing any view code. It already said no inline `<script>` for page logic, so CodeRabbit's one finding on my PR would not have happened. I would also check the dev environment before each gate run (turn Xdebug off, confirm the log folder is writable) and not discover those problems one failed run at a time. Next time I would upload the screenshots when I open the PR and keep the working notes and PR draft in sync as I go.
 
 ---
 
 ## Resources Used
 
-[What actually helped, not a reading list. List things this story
+<!-- [What actually helped, not a reading list. List things this story
 already shows you using: the doc you followed to set the environment
 up, the thread that explained the bug, the person who answered you.
-One real entry beats ten plausible ones.]
+One real entry beats ten plausible ones.] -->
 
+<!-- - [Link to documentation that helped]
+- [Discussion, issue, or post that helped] -->
 - ChurchCRM issue #8900, the request and the maintainer's comment that set the scope: https://github.com/ChurchCRM/CRM/issues/8900
 - `DEVELOPING.md` in the CRM repo, for the Docker dev stack, the build, and running a single Cypress spec.
 - `.agents/skills/churchcrm/code-standards.md` in the CRM repo, for the rule that page logic goes in a webpack entry.
