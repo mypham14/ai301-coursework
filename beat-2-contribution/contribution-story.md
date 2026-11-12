@@ -260,6 +260,10 @@ Added `cypress/e2e/ui/people/cart.csv-export.spec.js` to cover the default and s
 
 Checked the Export CSV modal in a browser on seeded demo data, in light and dark at 1440, 820 and 390 px. The modal fit each width, the five default fields were checked, and closing it triggered no download. No code changes were needed.
 
+**2026-11-12**
+
+Opened PR #11430. CodeRabbit requested one change: move the Cart page's inline script into a webpack entry, as `code-standards.md` requires. I added `webpack/cart-csv-export.js`, registered it in `webpack.config.js`, and replaced the inline script in `cartview.php` with one versioned script tag. This adds two files to the three in my plan; the behavior is unchanged, and I recorded it in `plan.md`. Lint passed all 29 checks and the Cart CSV spec passed with longer timeouts, because the dev server was slow.
+
 **Toolkit**
 
 - Tool: Copilot in VS Code, used to implement the route/view change and add focused Cypress coverage.
