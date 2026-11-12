@@ -13,6 +13,11 @@ files and no evidence uploads are part of Assignment 5.
 **Issue:** https://github.com/ChurchCRM/CRM/issues/8900  
 **Pull Request:** https://github.com/ChurchCRM/CRM/pull/11430
 <!-- [GitHub PR link, once opened] -->
+<!-- # Contribution: [Issue Title]
+**Student:** [Student name]
+**GitHub Username:** [your GitHub username, exactly as it appears on your profile - no @, no
+profile URL. Your comments upstream are identified by this name.]
+**Issue:** [GitHub issue link] -->
 
 One repository, built across units 5 to 8, telling the whole story of your real
 contribution. Fill it as you work, not at the end — the sections below ask for evidence that
@@ -62,8 +67,12 @@ one in the week it belongs to.
 or fell short, what changed because of it.] -->
 I built a profile-based search strategy for my issue-scout and ran it across Python, JavaScript/React, and SQL issues. The scan's top five all came from the Python query, and when I compared direct grading with my manual review, the scout marked ChurchCRM #819 unclear because I had not verified that the chart was absent from the member dashboard. I saved the scout's readout and will verify that premise before committing to the issue, rather than changing the rubric without evidence that it graded the check incorrectly.
 
+<!-- [one line on the tool work] -->
 **Unit 6: Installing my voice guard and repo memory**
 
+<!-- [2-4 sentences: the voice-guard, the repo-memory file. What broke or
+fell short, and what changed because of it. "Nothing broke" counts when
+it is true - say how you know.] -->
 During Unit 6, I added upstream claim, question, and ping rules to my voice guide, installed the voice guard, and verified the hook; the wiring test was blocked as expected because the comment command had no body. I created a concise `CLAUDE.local.md` for my CRM clone and excluded it through `.git/info/exclude` so it stays out of the PR. My first claim check failed because repro-check still had its sandbox scope, so I installed the wild scope and reran it successfully. I initially missed the Cart's shared DataTables CSV button, then corrected my source report: the Cart exports its fixed table columns, while `src/CSVExport.php` has a separate selectable-field flow. The maintainer confirmed that the selector should be brought to the Cart export surface.
 
 <!-- [one line on the tool work] -->
@@ -84,12 +93,27 @@ I wrote my playbook from five recent merged outside PRs in ChurchCRM/CRM, where 
 
 ## Why I Chose This Issue
 
+<!-- [1-2 paragraphs in your own words: how you searched, what your scan
+surfaced, what your scout's verdict said, why this issue fits your
+profile, and what you hope to learn. If your scout's verdict on it
+was reject and you chose it anyway, say so here and say why; choosing
+against your own tool silently is what loses points. Close with an
+honest read of the tool itself: where the scout fell short on a real
+wild search and what you changed or would change, or what convinced
+you it held up. **Record the link to your claim comment in this section too.**
+Not claimed yet? Write `claim pending` and today's date where the link goes,
+and add the link the moment your claim lands.] -->
 I used issue-scout to grade three issues I had picked: ChurchCRM #8900, ChurchCRM #819, and WebDevTools #159. After I patched the scope check, the scout accepted all three and rated #8900 straightforward, #819 moderate, and #159 ambitious. I chose #8900 because it is a bounded CSV-export feature that connects to my data-science and analytics experience, and the maintainer pointed to an existing field-selection pattern in `src/CSVExport.php`. I hope to learn how ChurchCRM's PHP export flow is organized and how that pattern can be applied to the Cart export.
 
 The scout helped me compare the options, but I treated its verdict as evidence rather than a decision: its maintainer-activity check accepts ChurchCRM based on a non-owner merge even though most merges are concentrated with DawoudIO. It also surfaced the uncertainty around #819 and the old assignment on #159, which I would want to verify before choosing either. I selected #8900 because its scope and implementation precedent were clearer. I posted my claim here: https://github.com/ChurchCRM/CRM/issues/8900#issuecomment-6760912314.
 
 **Toolkit**
 
+<!-- - Tool: issue-scout (your scout: your search strategy, your rubric),
+  and how you used it
+- What it produced: [the scan and its verdict on this issue, described]
+- Difficulties: [where it fell short, or "none met" if none did]
+- What changed: [what you patched or would update, or "nothing"] -->
 - Tool: issue-scout (my scout, with my search strategy and my rubric),
   used in direct mode to grade my three candidate issues
 - What it produced: accepted verdicts for #8900, #819, and #159, with
@@ -108,18 +132,22 @@ The scout helped me compare the options, but I treated its verdict as evidence r
 
 **Problem Description**
 
+<!-- [In your own words, what is broken or missing?] -->
 The Cart's CSV export only includes the Cart table's fixed columns. A user cannot choose which fields to include or add fields such as birthday and phone when exporting the people currently in the Cart.
 
 **Expected Behavior**
 
+<!-- [What should happen?] -->
 The Cart export should let the user select fields and download a CSV containing those fields for people currently in the Cart. The existing five columns should remain selected by default, and the Actions column must not be exported.
 
 **Current Behavior**
 
+<!-- [What actually happens?] -->
 The Cart view initializes its table with `window.CRM.plugin.dataTable`. The shared configuration in `webpack/crm-bootstrap.js` supplies a CSV button and exports columns except those marked `.no-export`. The Cart therefore exports its fixed Name, Address, Email, Classification, and Family Role columns; its Actions column is excluded. The separate field selector in `src/CSVExport.php` is admin-only and is not the Cart export flow.
 
 **Affected Components**
 
+<!-- [Which parts of the codebase are involved?] -->
 - `src/people/views/cart/cartview.php`: renders the Cart's field-selection modal and overrides only the Cart table's CSV button to open it.
 - `src/people/routes/cart.php`: defines the allowed export fields, validates the requested fields, and generates a CSV for current Cart members.
 - `cypress/e2e/ui/people/cart.csv-export.spec.js`: covers default and selected headers, selected row values, and Cart-only output.
@@ -139,10 +167,17 @@ The Cart view initializes its table with `window.CRM.plugin.dataTable`. The shar
 
 **Environment Setup**
 
+<!-- [What a stranger would need to stand this up: your operating system,
+the relevant versions (language, runtime, package manager, the project
+itself), and how you set the project up. Then the challenges you faced
+and how you solved them, or that none came up.] -->
 I inspected `mypham14/CRM` on Windows 10 Pro, version 10.0.19045, build 19045, at commit `493cb45053bd94719dbb9c152afff344b2785bfc` on `master`. On 2026-11-11, I reproduced the current export in the local Docker development stack at `http://localhost`; the database container was healthy on port 3307 because the Windows MySQL service already used port 3306. The app was built in the container to install its dependencies, then I signed in with the local development admin account and used the seeded Church Admin person. The original environment readiness check had reported missing PHP/Composer dependencies before the Docker setup.
 
 **Steps to Reproduce**
 
+<!-- 1. [Step 1]
+2. [Step 2]
+3. [Observed result] -->
 These steps reproduce the baseline Cart CSV output in the local development app.
 
 1. Clone the fork and check out the inspected commit:
@@ -167,6 +202,11 @@ These steps reproduce the baseline Cart CSV output in the local development app.
 
 **Reproduction Evidence**
 
+<!-- - **Commit showing reproduction:** [link to commit in your fork]
+- **Screenshots/logs:** [if applicable]
+- **My findings:** [what you discovered during reproduction; an
+  honest, evidenced cannot-reproduce that led you to re-pick or ask
+  the maintainer belongs here and costs you nothing] -->
 - **Commit showing reproduction:** `493cb45053bd94719dbb9c152afff344b2785bfc` (baseline `master`, before the feature branch).
 - **Downloaded CSV:** `ChurchCRM Cart.csv`, with Church Admin as the only Cart member:
 
@@ -204,14 +244,21 @@ These steps reproduce the baseline Cart CSV output in the local development app.
 
 **Analysis**
 
+<!-- [Your analysis of the root cause: what is causing the issue, traced
+to the files and functions involved.] -->
 I exported the Cart with Church Admin as its only person. Its CSV header was `"Name","Address","Email","Classification","Family Role"` and its row was `"Church Admin","","","Unassigned","Unassigned"`; there is no way to choose Birth Date or Mobile Phone. In `src/people/views/cart/cartview.php`, the Cart renders five fixed data columns and initializes its table with `window.CRM.plugin.dataTable`. The shared `dataTableConfig` in `webpack/crm-bootstrap.js` supplies a CSV button that exports rendered columns except those marked `.no-export`, such as the Actions column. It cannot provide selectable fields not rendered in the table. `src/CSVExport.php` demonstrates a selector but is admin-only, so routing Cart users there would not preserve the Cart surface and access behavior.
 
 **Proposed Solution**
 
+<!-- [High-level description of your fix approach, and what you are
+deliberately NOT changing.] -->
 Add field selection to the Cart's own CSV export flow, following the existing selector conventions and generating a CSV only for people currently in the Cart. Keep the existing five fields selected by default, allow selecting additional fields such as Birth Date and Mobile Phone, exclude the Actions column, and preserve the Cart's existing access rules. Do not change the shared DataTables export behavior for other pages, make the general admin exporter available to non-admin users, alter unrelated Cart actions, or modify the database schema.
 
 **Implementation Plan**
 
+<!-- 1. [Modify file X to do Y]
+2. [Add or change Z]
+3. [Update tests] -->
 1. `src/people/views/cart/cartview.php` adds the field-selection modal, with the original five columns selected by default and First Name, Birth Date, and Mobile Phone available as optional fields. The Cart's DataTable CSV button opens this modal; the shared DataTables configuration is copied and overridden locally.
 2. `src/people/routes/cart.php` adds `GET /people/cart/csv`. It validates selected fields against an allowlist, builds headers and rows with `CsvExporter`, and uses only the current Cart members.
 3. `cypress/e2e/ui/people/cart.csv-export.spec.js` covers the default CSV header and a selected First Name/Birth Date/Mobile Phone export, including the row values and absence of an Actions column.
@@ -239,6 +286,10 @@ why. A recorded deviation is honest work; silent drift is not.] -->
 
 ## Testing Strategy
 
+<!-- [What observable checks prove the fix: your reproduction steps re-run
+against the built change (before and after), and the repo's own test
+suite or checks with the outcome shown. "Tests pass" with nothing
+observable named is not a strategy.] -->
 Run the new focused Cypress spec from the CRM repo root using the command in Implementation. It asserts the unchanged default header `"Name","Address","Email","Classification","Family Role"` and then selects First Name, Birth Date, and Mobile Phone and asserts the exact header `"First Name","Birth Date","Mobile Phone"` and row `"Church","",""`. It also asserts that only one Cart member is exported and that Actions is absent. The baseline runtime CSV is recorded in Reproduction Evidence. On 2026-11-11 the focused spec passed on the branch (1 passing, 0 failing) after `npm run docker:test:reset:db`, `XDEBUG_MODE=off npm run lint` passed all 29 checks, and `npm run build` exited 0. In a browser pass on seeded demo data, the Export CSV modal fit and worked in light and dark at 1440, 820 and 390 px, with the five default fields checked, and closing it exported nothing.
 
 Before shipping, run the focused Cart CSV UI test, lint/regression checks, and build using the exact commands in `ship-manifest.md`. Record actual outcomes in the CRM repo's `test_evidence.md`. The existing `standard.cart.spec.js` is tracked separately because its three add/remove tests failed on the unchanged `master` baseline; that failure is not evidence about the CSV feature.
@@ -254,6 +305,16 @@ Before shipping, run the focused Cart CSV UI test, lint/regression checks, and b
 
 ## Implementation Notes
 
+<!-- [A running log, added to as you work. Date each entry. What you
+built, decisions you made when you made them, wrong turns included.]
+
+**[Date]**
+
+[Entry]
+
+**[Date]**
+
+[Entry] -->
 **2026-11-11**
 
 Added a Cart-specific field selector and CSV endpoint in `src/people/views/cart/cartview.php` and `src/people/routes/cart.php`. The original five columns remain selected by default; First Name, Birth Date, and Mobile Phone are optional. The endpoint accepts only allowlisted fields and exports current Cart members. I kept the shared export configuration and admin-only exporter unchanged.
